@@ -62,39 +62,3 @@ cognitoidentityserviceprovider.getUser(params, function(err, data) {
         fetchTasks(UserId);
     }
 });
-
-function fetchTasks(userId) {
-    // Replace with your API endpoint
-    const apiEndpoint = 'https://your-api-endpoint.com/get-tasks';
-
-    fetch(`${apiEndpoint}?userId=${userId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-        }
-    })
-    .then(response => response.json())
-    .then(tasks => {
-        console.log('Tasks:', tasks);
-        const taskList = document.getElementById('taskList');
-        taskList.innerHTML = ''; // Clear existing tasks
-
-        tasks.forEach(task => {
-            const taskItem = document.createElement('li');
-            taskItem.className = 'media align-items-center';
-            taskItem.innerHTML = `
-                <span class="info-icon"><i class="icon ion-md-checkmark-circle"></i></span>
-                <div class="media-body info-details">
-                    <h6 class="info-type">${task.title}</h6>
-                    <span class="info-value">${task.description}</span>
-                    <span class="info-value">${task.dueDate}</span>
-                </div>
-            `;
-            taskList.appendChild(taskItem);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching tasks:', error);
-    });
-}
