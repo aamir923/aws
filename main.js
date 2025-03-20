@@ -1,54 +1,100 @@
-const url = window.location.href
-const replacedURL = url.replace('#', '&')
-const finalURL = new URLSearchParams(replacedURL)
-var accessToken = finalURL.get('access_token')
-var idToken = finalURL.get("id_token")
-var UserName, UserEmail;
+const url = window.location.href;
+const replacedURL = url.replace('#', '&');
+const finalURL = new URLSearchParams(replacedURL);
+var accessToken = finalURL.get('access_token');
+var idToken = finalURL.get("id_token");
+var UserName, UserEmail, UserId;
 
 // Change - Your region
 aws_region = 'ap-south-1';
-AWS.config.region = aws_region; 
+AWS.config.region = aws_region;
 
 AWS.config.apiVersions = {
     cognitoidentityserviceprovider: '2016-04-18'
-}; 
+};
 
-var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider(); 
+var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
 
 var params = {
-    AccessToken:  accessToken
+    AccessToken: accessToken
 };
 
 cognitoidentityserviceprovider.getUser(params, function(err, data) {
-    if (err) 
-    {
+    if (err) {
+        console.error('Error:', err);
         // Change - Link to the Home Page
         window.location.href = 'https://aamir923.github.io/aws/index.html';
-    }
-    else 
-    {
-        console.log(data);
+    } else {
+        console.log('Full data:', data);
+        console.log('User Attributes:', data.UserAttributes);
 
-        for(var i = 0; i < data.UserAttributes.length; i++)
-        {
-            if(data.UserAttributes[i].Name == 'name')
-            {
+        // Log all attributes to identify the correct attribute names
+        data.UserAttributes.forEach(attribute => {
+            console.log(`Attribute Name: ${attribute.Name}, Attribute Value: ${attribute.Value}`);
+        });
+
+        for (var i = 0; i < data.UserAttributes.length; i++) {
+            if (data.UserAttributes[i].Name === 'name') {
                 UserName = data.UserAttributes[i].Value;
+                console.log('Found name:', UserName);
+            } else if (data.UserAttributes[i].Name === 'email') {
+                UserEmail = data.UserAttributes[i].Value;
+                console.log('Found email:', UserEmail);
+            } else if (data.UserAttributes[i].Name === 'sub') { // 'sub' is the default attribute for userId in Cognito
+                UserId = data.UserAttributes[i].Value;
+                console.log('Found userId:', UserId);
             }
         }
 
-        for(var j = 0; j < data.UserAttributes.length; j++)
-        {
-            if(data.UserAttributes[j].Name == 'email')
-            {
-                UserEmail = data.UserAttributes[j].Value;
-            }
+        // Check if we found the values
+        console.log('Final UserName:', UserName);
+        console.log('Final UserEmail:', UserEmail);
+        console.log('Final UserId:', UserId);
+
+        if (document.getElementById('userName')) {
+            document.getElementById('userName').innerHTML = UserName || 'Name not found';
+        }
+        if (document.getElementById('userEmail')) {
+            document.getElementById('userEmail').innerHTML = UserEmail || 'Email not found';
         }
 
-        document.getElementById('userName').innerHTML = UserName;
-        document.getElementById('userEmail').innerHTML = UserEmail;  
-
-        document.getElementById('userNameInput').value =UserName;
-        document.getElementById('userEmailInput').value = UserEmail;    
+        // Fetch and display tasks
+        fetchTasks(UserId);
     }
 });
+
+function fetchTasks(userId) {
+    // Replace with your API endpoint
+    const apiEndpoint = 'https://your-api-endpoint.com/get-tasks';
+
+    fetch(`${apiEndpoint}?userId=${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(response => response.json())
+    .then(tasks => {
+        console.log('Tasks:', tasks);
+        const taskList = document.getElementById('taskList');
+        taskList.innerHTML = ''; // Clear existing tasks
+
+        tasks.forEach(task => {
+            const taskItem = document.createElement('li');
+            taskItem.className = 'media align-items-center';
+            taskItem.innerHTML = `
+                <span class="info-icon"><i class="icon ion-md-checkmark-circle"></i></span>
+                <div class="media-body info-details">
+                    <h6 class="info-type">${task.title}</h6>
+                    <span class="info-value">${task.description}</span>
+                    <span class="info-value">${task.dueDate}</span>
+                </div>
+            `;
+            taskList.appendChild(taskItem);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching tasks:', error);
+    });
+}
