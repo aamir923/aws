@@ -23,7 +23,7 @@ cognitoidentityserviceprovider.getUser(params, function(err, data) {
     if (err) 
     {
         // Change - Link to the Home Page
-        window.location.href = 'https://rushidonga.github.io/cognito-auth/'
+        window.location.href = 'https://aamir923.github.io/aws/index.html';
     }
     else 
     {
@@ -39,7 +39,7 @@ cognitoidentityserviceprovider.getUser(params, function(err, data) {
 
         for(var j = 0; j < data.UserAttributes.length; j++)
         {
-            if(data.UserAttributes[j].Name == 'Email')
+            if(data.UserAttributes[j].Name == 'email')
             {
                 UserEmail = data.UserAttributes[j].Value;
             }
