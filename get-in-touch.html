@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="../customizer/main.css">
   <!-- endremoveIf(customizerDist)-->
 
-<title>Get in touch :)</title>
+<title>Your Tasks</title>
 
 </head>
 
@@ -44,7 +44,7 @@
               <div class="row">
                 <div class="col-12">
                   <div class="section-heading page-heading">
-                    <h2 class="section-title">Get in Touch</h2>
+                    <h2 class="section-title">Your Tasks</h2>
                     <div class="animated-bar"></div>
                   </div>
                 </div>
@@ -58,10 +58,10 @@
                       <h4 class="content-title">Message Me</h4>
                       <div class="row">
                         
-                        <div class="col-12 col-md-6 form-group"><input id="userNameInput" class="form-control" placeholder="User Name" type="text" name="name" id="userName" required=""></div>
+                        <div class="col-12 col-md-6 form-group"><input id="title" class="form-control" placeholder="Title" type="text" name="title" id="title" required=""></div>
                         <div class="col-12 col-md-6 form-group"><input id="userEmailInput" class="form-control" placeholder="E-mail" type="email" name="email" required=""></div>
-                        <div class="col-12 form-group"><input id="userSubject" class="form-control"  type="text" name="subject" placeholder="Subject" required=""></div>
-                        <div class="col-12 form-group form-message"><textarea id="userDescription" class="form-control"  name="message" placeholder="Message" rows="5" required=""></textarea></div>
+                        <div class="col-12 form-group"><input id="duedate" class="form-control"  type="date" name="duedate" placeholder="Due Date" required=""></div>
+                        <div class="col-12 form-group form-message"><textarea id="titleDescription" class="form-control"  name="description" placeholder="Description" rows="5" required=""></textarea></div>
                         
 
                         <!-- Button on Click Event -->
@@ -69,13 +69,12 @@
                         <div class="col-12 form-submit">
                           <button 
                              onclick="sendData(
-                              document.getElementById('userNameInput').value, 
-                              document.getElementById('userEmailInput').value, 
-                              document.getElementById('userSubject').value, 
-                              document.getElementById('userDescription').value
+                              document.getElementById('title').value, 
+                              document.getElementById('description').value, 
+                              document.getElementById('duedate').value, 
                             )"
                             class="btn button-main button-scheme" type="button">
-                            Send Message
+                            New Task
                           </button>
                         </div>
 
@@ -84,7 +83,7 @@
 
                         <div class="col-12 form-submit">
                           <!-- Change - SignOut URL -->
-                          <a href="https://rushi-donga3107.auth.ap-south-1.amazoncognito.com/logout?client_id=6q6cc2auipdm6trkb4ndrp9185&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://rushidonga.github.io/cognito-auth/get-in-touch.html">
+                          <a href="https://ap-south-1tcpco63my.auth.ap-south-1.amazoncognito.com/logout?client_id=4qfo2pd16kqe8f5clmiakgt1vc&logout_uri=https://aamir923.github.io/aws/index.html">
                             <button 
                             class="btn button-main button-scheme" type="button">
                             SignOut
@@ -98,7 +97,7 @@
                   <!-- Contact info-->
                   <div class="col-12 col-lg-5">
                     <div class="contact-info">
-                      <h4 class="content-title">Login Details</h4>
+                      <h4 class="content-title">Task Details</h4>
                       <p class="info-description">Here are the login Details, fetched from AWS Cognito using AWS SDK for JavaScript</p>
                       <ul class="list-unstyled list-info">
                         <li>
