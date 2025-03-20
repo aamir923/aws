@@ -365,10 +365,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <input type="input" class="form__field" placeholder="Name" id="swal-input-name" required="">
             <label for="swal-input-name" class="form__label">Name</label>
           </div>
-          <div class="form__group field">
-            <input type="input" class="form__field" placeholder="Email" id="swal-input-email" required="">
-            <label for="swal-input-email" class="form__label">Email</label>
-          </div>
         `,
                 },
             },
@@ -380,7 +376,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }).then((result) => {
             if (result && result.dismiss !== "cancel") {
                 const name = document.getElementById("swal-input-name").value;
-                const email = document.getElementById("swal-input-email").value;
 
                 // Set default values if the user didn't enter any details
                 const finalName = name || "Mr John Doe ";
