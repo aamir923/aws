@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutLink.addEventListener("click", () => {
         swal({
             title: "Are you sure?",
-            text: "Logging out will delete your profile name and email.",
+            text: "Logging out will redirect you to home page.",
             icon: "warning",
             buttons: ["Cancel", "Logout"],
             dangerMode: true,
@@ -325,10 +325,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (willLogout) {
                 // User clicked "Logout"
                 // Remove user preferences from local storage
-                localStorage.removeItem("userPreferences");
-    
                 // Refresh the current page
-                window.location.reload();
+                window.location.href = 'https://aamir923.github.io/aws/index.html';
             } else {
                 // User clicked "Cancel"
                 // Do nothing or handle accordingly
